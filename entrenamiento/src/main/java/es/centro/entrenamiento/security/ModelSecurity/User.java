@@ -1,5 +1,6 @@
 package es.centro.entrenamiento.security.ModelSecurity;
 
+import es.centro.entrenamiento.Models.Reserve;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Builder
@@ -30,19 +29,21 @@ public class User implements UserDetails {
     @Column(nullable = false,name = "username")
     String username;
 
-    @Column(nullable = false,name = "lastname")
-    String lastname;
-
     @Column(name = "firstname")
     String firstname;
 
-    @Column(name = "country")
-    String country;
+    @Column(nullable = false,name = "lastname")
+    String lastname;
+
+    @Column(name = "phone")
+    String phone;
 
     @Column(name = "password")
     String password;
 
+    //RELATION
 
+    //USER - ROLE
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -50,6 +51,12 @@ public class User implements UserDetails {
             inverseJoinColumns = { @JoinColumn(name = "role_Id")}
     )
     private List<Role> roles = new ArrayList<Role>();
+
+    //USER - RESERVE
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "user")
+    private Set<Reserve> reserves = new HashSet<>();
 
 
     @Override

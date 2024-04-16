@@ -73,11 +73,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
         Optional<User> usuario1 = usuarioRepository.findByUsername("admin@clubnautico.com");
         if (usuario1.isEmpty()){
             User admin = new User();
+            admin.setUsername("admin@clubnautico.com");
             admin.setFirstname("admin");
             admin.setLastname("admin");
-            admin.setUsername("admin@clubnautico.com");
-            admin.setCountry("spain");
+            admin.setPhone("123456789");
             admin.setPassword( new BCryptPasswordEncoder().encode("Asdf1234!"));
+
             admin.getRoles().add(roles.getFirst());
             usuarioRepository.save(admin);
         }
@@ -85,12 +86,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
         Optional<User> usuario2=usuarioRepository.findByUsername("owner@clubnautico.com");
         if (usuario2.isEmpty()){
             User user = new User();
+            user.setUsername("owner@clubnautico.com");
             user.setFirstname("owner");
             user.setLastname("owner");
-            user.setUsername("owner@clubnautico.com");
-            user.setCountry("spain");
-
+            user.setPhone("123456789");
             user.setPassword(new BCryptPasswordEncoder().encode("Asdf1324!"));
+
             user.getRoles().add(roles.get(1));
             usuarioRepository.save(user);
         }
@@ -98,12 +99,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
         Optional<User> usuario3=usuarioRepository.findByUsername("worker@clubnautico.com");
         if (usuario3.isEmpty()){
             User user = new User();
+            user.setUsername("worker@clubnautico.com");
             user.setFirstname("worker");
             user.setLastname("worker");
-            user.setUsername("worker@clubnautico.com");
-            user.setCountry("spain");
-
+            user.setPhone("123456789");
             user.setPassword(new BCryptPasswordEncoder().encode("Asdf1324!"));
+
             user.getRoles().add(roles.get(2));
             usuarioRepository.save(user)
             ;
@@ -112,11 +113,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
         Optional<User> usuario4 = usuarioRepository.findByUsername("user@clubnautico.com");
         if (usuario4.isEmpty()){
             User user = new User();
+            user.setUsername("user@clubnautico.com");
             user.setFirstname("user");
             user.setLastname("user");
-            user.setUsername("user@clubnautico.com");
-            user.setCountry("spain");
+            user.setPhone("123456789");
             user.setPassword(new BCryptPasswordEncoder().encode("Asdf1324!"));
+
             user.getRoles().add(roles.get(3));
             usuarioRepository.save(user);
         }
