@@ -1,7 +1,9 @@
 package es.centro.entrenamiento.Services;
 
-import es.centro.entrenamiento.Repositories.IRoleRepository;
-import es.centro.entrenamiento.Repositories.IUserRepository;
+import es.centro.entrenamiento.Models.Reserve;
+import es.centro.entrenamiento.Models.Schedule;
+import es.centro.entrenamiento.Models.Zone;
+import es.centro.entrenamiento.Repositories.*;
 import es.centro.entrenamiento.security.ModelSecurity.Role;
 import es.centro.entrenamiento.security.ModelSecurity.User;
 import jakarta.transaction.Transactional;
@@ -10,9 +12,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class DataUserRolesSeeder implements CommandLineRunner {
@@ -20,6 +22,13 @@ public class DataUserRolesSeeder implements CommandLineRunner {
     private IUserRepository usuarioRepository;
     @Autowired
     private IRoleRepository rolRepository;
+
+    @Autowired
+    private IZoneRepository iZoneRepository;
+    @Autowired
+    private IScheduleRepository iScheduleRepository;
+    @Autowired
+    private IReserveRepository iReserveRepository;
 
     @Override
     @Transactional
@@ -70,7 +79,11 @@ public class DataUserRolesSeeder implements CommandLineRunner {
         }
 
         //USUARIOS
+        List<User> users = new ArrayList<>();
+
         Optional<User> usuario1 = usuarioRepository.findByUsername("admin@clubnautico.com");
+        usuario1.ifPresent(users::add);
+
         if (usuario1.isEmpty()){
             User admin = new User();
             admin.setUsername("admin@clubnautico.com");
@@ -78,12 +91,15 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             admin.setLastname("admin");
             admin.setPhone("123456789");
             admin.setPassword( new BCryptPasswordEncoder().encode("Asdf1234!"));
-
             admin.getRoles().add(roles.getFirst());
+
+            users.add(admin);
             usuarioRepository.save(admin);
         }
 
         Optional<User> usuario2=usuarioRepository.findByUsername("owner@clubnautico.com");
+        usuario2.ifPresent(users::add);
+
         if (usuario2.isEmpty()){
             User user = new User();
             user.setUsername("owner@clubnautico.com");
@@ -91,12 +107,15 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             user.setLastname("owner");
             user.setPhone("123456789");
             user.setPassword(new BCryptPasswordEncoder().encode("Asdf1324!"));
-
             user.getRoles().add(roles.get(1));
+
+            users.add(user);
             usuarioRepository.save(user);
         }
 
         Optional<User> usuario3=usuarioRepository.findByUsername("worker@clubnautico.com");
+        usuario3.ifPresent(users::add);
+
         if (usuario3.isEmpty()){
             User user = new User();
             user.setUsername("worker@clubnautico.com");
@@ -104,13 +123,15 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             user.setLastname("worker");
             user.setPhone("123456789");
             user.setPassword(new BCryptPasswordEncoder().encode("Asdf1324!"));
-
             user.getRoles().add(roles.get(2));
-            usuarioRepository.save(user)
-            ;
+
+            users.add(user);
+            usuarioRepository.save(user);
         }
 
         Optional<User> usuario4 = usuarioRepository.findByUsername("user@clubnautico.com");
+        usuario4.ifPresent(users::add);
+
         if (usuario4.isEmpty()){
             User user = new User();
             user.setUsername("user@clubnautico.com");
@@ -118,9 +139,107 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             user.setLastname("user");
             user.setPhone("123456789");
             user.setPassword(new BCryptPasswordEncoder().encode("Asdf1324!"));
-
             user.getRoles().add(roles.get(3));
+
+            users.add(user);
             usuarioRepository.save(user);
+        }
+
+        //ZONAS
+        Set<Zone> zones = new HashSet<>();
+
+        Optional<Zone> Zone1 = iZoneRepository.findByName("funcional");
+        Zone1.ifPresent(zones::add);
+        if (Zone1.isEmpty()){
+            Zone zone1 = new Zone();
+            zone1.setName("funcional");
+            zones.add(zone1);
+            iZoneRepository.save(zone1);
+        }
+
+        Optional<Zone> Zone2 = iZoneRepository.findByName("hierro");
+        Zone2.ifPresent(zones::add);
+        if (Zone2.isEmpty()){
+            Zone zone2 = new Zone();
+            zone2.setName("hierro");
+            zones.add(zone2);
+            iZoneRepository.save(zone2);
+        }
+
+        //HORARIO y RESERVA
+
+        //CREA RESERVA 1
+
+        Optional<Reserve> reserve1 = iReserveRepository.findByUser(users.getFirst());
+        if (reserve1.isEmpty()){
+            Reserve reserve = new Reserve();
+
+            //INSERTAR HORARIO1
+                Schedule schedule1 = new Schedule();
+                schedule1.setDay(LocalDate.now());
+                schedule1.setStartTime(LocalDateTime.now());
+                schedule1.setEndTime(LocalDateTime.now().plusHours(2));
+
+            reserve.setSchedule(schedule1);
+
+            //INSERTAR USUARIO1
+            reserve.setUser(users.getFirst());
+            iReserveRepository.save(reserve);
+        }
+
+        Optional<Reserve> reserve2 = iReserveRepository.findByUser(users.get(1));
+        if (reserve2.isEmpty()) {
+
+            //CREA RESERVA 2
+            Reserve reserve = new Reserve();
+
+            //INSERTAR HORARIO2
+                Schedule schedule2 = new Schedule();
+                schedule2.setDay(LocalDate.now());
+                schedule2.setStartTime(LocalDateTime.now());
+                schedule2.setEndTime(LocalDateTime.now().plusHours(2));
+
+            reserve.setSchedule(schedule2);
+
+            //INSERTAR USUARIO 3
+            reserve.setUser(users.get(1));
+            iReserveRepository.save(reserve);
+        }
+        Optional<Reserve> reserve3 = iReserveRepository.findByUser(users.get(1));
+        if (reserve3.isEmpty()) {
+            //CREA RESERVA 3
+            Reserve reserve = new Reserve();
+
+                //INSERTAR HORARIO 3
+                Schedule schedule3 = new Schedule();
+                schedule3.setDay(LocalDate.now());
+                schedule3.setStartTime(LocalDateTime.now());
+                schedule3.setEndTime(LocalDateTime.now().plusHours(2));
+            reserve.setSchedule(schedule3);
+
+            //INSERTAR USUARIO3
+            reserve.setUser(users.get(2));
+            //INSERTAR USUARIO 3
+            reserve.setUser(users.get(1));
+            iReserveRepository.save(reserve);
+        }
+
+        //CREA RESERVA 4
+        Optional<Reserve> reserve4 = iReserveRepository.findByUser(users.get(1));
+        if (reserve4.isEmpty()) {
+
+            Reserve reserve = new Reserve();
+
+            //INSERTAR HORARIO 4
+                Schedule schedule4 = new Schedule();
+                schedule4.setDay(LocalDate.now());
+                schedule4.setStartTime(LocalDateTime.now());
+                schedule4.setEndTime(LocalDateTime.now().plusHours(2));
+                reserve.setSchedule(schedule4);
+
+            //INSERTAR USUARIO 4
+            reserve.setUser(users.get(3));
+            iReserveRepository.save(reserve);
         }
     }
 }

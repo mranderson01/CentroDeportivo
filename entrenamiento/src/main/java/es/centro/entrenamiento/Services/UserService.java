@@ -21,11 +21,6 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     @Autowired
     IUserRepository iUserRepository;
-    @Autowired
-    RoleService roleSvc;
-
-    @Autowired
-    IRoleRepository roleRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

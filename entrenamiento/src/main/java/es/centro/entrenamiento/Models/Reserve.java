@@ -28,19 +28,16 @@ public class Reserve {
     //zone > reserve
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "zone_id")
-    @Column(name = "zone_id")
     private Zone zone;
 
     //reserve > schedule
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "schedule_id")
-    @Column(name = "schedule_id")
     private Schedule schedule;
 
 
     //USER - RESERVE
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    @Column(name = "user_id")
     private User user;
 }

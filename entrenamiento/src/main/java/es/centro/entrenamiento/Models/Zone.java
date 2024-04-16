@@ -26,8 +26,7 @@ public class Zone {
     private String name;
 
     //Relation
-    @OneToMany(mappedBy = "zone",
-                cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Zone> reserves = new HashSet<>();
 
 
