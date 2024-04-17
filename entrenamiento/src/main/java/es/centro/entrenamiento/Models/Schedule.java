@@ -35,7 +35,9 @@ public class Schedule {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    //relacion
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //relaciones
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "schedule")
     private Set<Reserve> reserves = new HashSet<>();
 }

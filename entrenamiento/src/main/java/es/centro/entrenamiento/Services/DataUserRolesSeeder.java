@@ -35,7 +35,6 @@ public class DataUserRolesSeeder implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //ROLES
-
         List<Role> roles = new ArrayList<>();
 
 
@@ -146,7 +145,7 @@ public class DataUserRolesSeeder implements CommandLineRunner {
         }
 
         //ZONAS
-        Set<Zone> zones = new HashSet<>();
+        List<Zone> zones = new ArrayList<>();
 
         Optional<Zone> Zone1 = iZoneRepository.findByName("funcional");
         Zone1.ifPresent(zones::add);
@@ -184,6 +183,9 @@ public class DataUserRolesSeeder implements CommandLineRunner {
 
             //INSERTAR USUARIO1
             reserve.setUser(users.getFirst());
+
+            //insertar zone
+            reserve.setZone(zones.getFirst());
             iReserveRepository.save(reserve);
         }
 
@@ -203,6 +205,7 @@ public class DataUserRolesSeeder implements CommandLineRunner {
 
             //INSERTAR USUARIO 3
             reserve.setUser(users.get(1));
+            reserve.setZone(zones.get(1));
             iReserveRepository.save(reserve);
         }
         Optional<Reserve> reserve3 = iReserveRepository.findByUser(users.get(1));
@@ -221,6 +224,7 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             reserve.setUser(users.get(2));
             //INSERTAR USUARIO 3
             reserve.setUser(users.get(1));
+            reserve.setZone(zones.getFirst());
             iReserveRepository.save(reserve);
         }
 
@@ -239,6 +243,7 @@ public class DataUserRolesSeeder implements CommandLineRunner {
 
             //INSERTAR USUARIO 4
             reserve.setUser(users.get(3));
+            reserve.setZone(zones.get(1));
             iReserveRepository.save(reserve);
         }
     }

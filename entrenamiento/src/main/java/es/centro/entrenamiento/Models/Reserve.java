@@ -25,12 +25,12 @@ public class Reserve {
 
 
     //relaciones
-    //zone > reserve
+    //Zone - Reserve
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "zone_id")
     private Zone zone;
 
-    //reserve > schedule
+    //schedule - reserve
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
