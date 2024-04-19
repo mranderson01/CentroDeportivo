@@ -1,5 +1,7 @@
 package es.centro.entrenamiento.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import es.centro.entrenamiento.security.ModelSecurity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,16 +30,19 @@ public class Reserve {
     //Zone - Reserve
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "zone_id")
+    @JsonManagedReference
     private Zone zone;
 
     //schedule - reserve
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "schedule_id")
+    @JsonManagedReference
     private Schedule schedule;
 
 
     //USER - RESERVE
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 }

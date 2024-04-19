@@ -1,5 +1,6 @@
 package es.centro.entrenamiento.security.ModelSecurity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +26,6 @@ public class Role {
 
     //Relationships
     @ManyToMany(mappedBy = "roles")
+    @JsonManagedReference
     private List<User> users = new ArrayList<User>();
 }

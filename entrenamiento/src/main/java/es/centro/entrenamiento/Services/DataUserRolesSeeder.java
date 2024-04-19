@@ -80,12 +80,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
         //USUARIOS
         List<User> users = new ArrayList<>();
 
-        Optional<User> usuario1 = usuarioRepository.findByUsername("admin@clubnautico.com");
+        Optional<User> usuario1 = usuarioRepository.findByUsername("admin@kromgym.com");
         usuario1.ifPresent(users::add);
 
         if (usuario1.isEmpty()){
             User admin = new User();
-            admin.setUsername("admin@clubnautico.com");
+            admin.setUsername("admin@kromgym.com");
             admin.setFirstname("admin");
             admin.setLastname("admin");
             admin.setPhone("123456789");
@@ -96,12 +96,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             usuarioRepository.save(admin);
         }
 
-        Optional<User> usuario2=usuarioRepository.findByUsername("owner@clubnautico.com");
+        Optional<User> usuario2=usuarioRepository.findByUsername("owner@kromgym.com");
         usuario2.ifPresent(users::add);
 
         if (usuario2.isEmpty()){
             User user = new User();
-            user.setUsername("owner@clubnautico.com");
+            user.setUsername("owner@kromgym.com");
             user.setFirstname("owner");
             user.setLastname("owner");
             user.setPhone("123456789");
@@ -112,12 +112,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             usuarioRepository.save(user);
         }
 
-        Optional<User> usuario3=usuarioRepository.findByUsername("worker@clubnautico.com");
+        Optional<User> usuario3=usuarioRepository.findByUsername("worker@kromgym.com");
         usuario3.ifPresent(users::add);
 
         if (usuario3.isEmpty()){
             User user = new User();
-            user.setUsername("worker@clubnautico.com");
+            user.setUsername("worker@kromgym.com");
             user.setFirstname("worker");
             user.setLastname("worker");
             user.setPhone("123456789");
@@ -128,12 +128,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             usuarioRepository.save(user);
         }
 
-        Optional<User> usuario4 = usuarioRepository.findByUsername("user@clubnautico.com");
+        Optional<User> usuario4 = usuarioRepository.findByUsername("user@kromgym.com");
         usuario4.ifPresent(users::add);
 
         if (usuario4.isEmpty()){
             User user = new User();
-            user.setUsername("user@clubnautico.com");
+            user.setUsername("user@kromgym.com");
             user.setFirstname("user");
             user.setLastname("user");
             user.setPhone("123456789");
@@ -189,7 +189,8 @@ public class DataUserRolesSeeder implements CommandLineRunner {
             iReserveRepository.save(reserve);
         }
 
-        Optional<Reserve> reserve2 = iReserveRepository.findByUser(users.get(1));
+        Optional<Reserve> reserve2 = iReserveRepository.findFirstReserveByUsername(users.get(1).getUsername());
+
         if (reserve2.isEmpty()) {
 
             //CREA RESERVA 2
@@ -205,10 +206,12 @@ public class DataUserRolesSeeder implements CommandLineRunner {
 
             //INSERTAR USUARIO 3
             reserve.setUser(users.get(1));
+
+            //insertar zone
             reserve.setZone(zones.get(1));
             iReserveRepository.save(reserve);
         }
-        Optional<Reserve> reserve3 = iReserveRepository.findByUser(users.get(1));
+        Optional<Reserve> reserve3 = iReserveRepository.findFirstReserveByUsername(users.get(1).getUsername());
         if (reserve3.isEmpty()) {
             //CREA RESERVA 3
             Reserve reserve = new Reserve();
@@ -222,14 +225,14 @@ public class DataUserRolesSeeder implements CommandLineRunner {
 
             //INSERTAR USUARIO3
             reserve.setUser(users.get(2));
-            //INSERTAR USUARIO 3
-            reserve.setUser(users.get(1));
+
+            //insertar zone
             reserve.setZone(zones.getFirst());
             iReserveRepository.save(reserve);
         }
 
         //CREA RESERVA 4
-        Optional<Reserve> reserve4 = iReserveRepository.findByUser(users.get(1));
+        Optional<Reserve> reserve4 = iReserveRepository.findFirstReserveByUsername(users.get(1).getUsername());
         if (reserve4.isEmpty()) {
 
             Reserve reserve = new Reserve();
@@ -243,6 +246,8 @@ public class DataUserRolesSeeder implements CommandLineRunner {
 
             //INSERTAR USUARIO 4
             reserve.setUser(users.get(3));
+
+            //insertar zone
             reserve.setZone(zones.get(1));
             iReserveRepository.save(reserve);
         }

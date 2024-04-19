@@ -1,5 +1,6 @@
 package es.centro.entrenamiento.security.ModelSecurity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import es.centro.entrenamiento.Models.Reserve;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -50,12 +51,14 @@ public class User implements UserDetails {
             joinColumns = { @JoinColumn(name = "user_Id")},
             inverseJoinColumns = { @JoinColumn(name = "role_Id")}
     )
+    @JsonBackReference
     private List<Role> roles = new ArrayList<Role>();
 
     //USER - RESERVE
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "user")
+    @JsonBackReference
     private Set<Reserve> reserves = new HashSet<>();
 
 

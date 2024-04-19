@@ -1,5 +1,6 @@
 package es.centro.entrenamiento.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,5 +40,6 @@ public class Schedule {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "schedule")
+    @JsonBackReference
     private Set<Reserve> reserves = new HashSet<>();
 }
